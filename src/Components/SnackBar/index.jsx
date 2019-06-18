@@ -96,6 +96,28 @@ const styles2 = theme => ({
   }
 });
 
+
+/**
+ * Generic SnackBar
+ *
+ * @param {boolean} enable Status Modal
+ * @param {string} title Title Message
+ * @param {string} type status = "success" - "error"
+ *
+ * behavior :
+ *
+ * import { snackBarStatus } from 'Actions/snackbarActions';
+ *
+ * this.props.snackBarStatus({
+        payload: {
+          enable: true,
+          title: "Message Title",
+          type: "success"
+        }
+      });
+    
+ *
+ */
 class SnackBar extends React.Component {
   handleClose = () => {
     this.props.snackBarStatus({
@@ -125,9 +147,13 @@ class SnackBar extends React.Component {
 }
 
 SnackBar.propTypes = {
+  /** Boolean to active message */
   enable: PropTypes.bool.isRequired,
+  /** Title message */
   title: PropTypes.string.isRequired,
+   /** Type message */
   type: PropTypes.string.isRequired,
+  /** Function of message */
   snackBarStatus: PropTypes.func.isRequired
 };
 

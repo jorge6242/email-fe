@@ -12,15 +12,24 @@ import Pagination from "./Pagination";
 import styles from "./style";
 import { Grid } from "@material-ui/core";
 
+  /**
+   * Class Generic DataTable
+   */
 class DataTable extends React.Component {
   state = {
     page: 0,
   };
 
+  /**
+   * Handle to paginate
+   */
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
 
+  /**
+   * Handle to show rows per page
+   */
   handleChangeRowsPerPage = event => {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
@@ -83,6 +92,7 @@ class DataTable extends React.Component {
 }
 
 DataTable.propTypes = {
+  /** Object styles of material UI */
   classes: PropTypes.object.isRequired
 };
 

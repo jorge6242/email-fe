@@ -9,7 +9,16 @@ import { updateModal } from "../../Actions/modalActions";
 import { getSelectedEmail } from "../../Actions/emailActions";
 import './index.sass';
 
+
+/**
+ * Class to show Send Messages.
+ */
 class Send extends Component {
+  /**
+   * Handle to active modal and show the selected email with redux.
+   *
+   * @param {object} email selected email
+   */
   handleClick = email => {
     this.props.getSelectedEmail(email).then(() => {
       this.props.updateModal({

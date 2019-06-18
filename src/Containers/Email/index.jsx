@@ -9,6 +9,10 @@ import Inbox from "../../Components/Inbox";
 import './index.sass';
 import Compose from "../Compose";
 
+
+/**
+ * Class to show the the current render of the app.
+ */
 class Email extends Component {
   componentWillMount() {
     this.props.changeComponent({
@@ -16,6 +20,9 @@ class Email extends Component {
     });
   }
 
+  /**
+   * Handle to render component with redux
+   */
   handleClick = () => {
    this.props.updateModal({ payload: { status: true, title: 'New Nessage', element: <Compose /> } });
   }

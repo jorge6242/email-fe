@@ -6,7 +6,15 @@ import LoginForm from "../../Components/LoginForm";
 import snackBarStatus from "../../Actions/snackbarActions";
 import "./index.sass";
 
+/**
+ * Class to Login
+ */
 class Login extends Component {
+
+  /**
+   * Get the current form of the message.
+   * @param {object} form 
+   */
   handleForm = form => {
     const { history } = this.props;
     if (form.email === 'test@getsirena.com' && form.password === 'test') {

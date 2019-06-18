@@ -35,6 +35,10 @@ import Send from "../../Components/Send";
 import { changeComponent, loadSuggestions } from "../../Actions/emailActions";
 import styles from "./style";
 
+
+/**
+ * Class to show the main app.
+ */
 class Dashboard extends React.Component {
   state = {
     mobileOpen: false
@@ -57,6 +61,9 @@ class Dashboard extends React.Component {
     this.props.loadSuggestions(suggestions);
   }
 
+  /**
+   * Import data to render inbox email list
+   */
   importData = () =>
     new Promise((resolve, reject) => {
       const emails = [];
@@ -66,10 +73,19 @@ class Dashboard extends React.Component {
       resolve(emails);
     });
 
+  /**
+   * Handle to show/hide the drawer
+   */
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
+  
+  /**
+   * Handle to select current component in the main app
+   *
+   * @param {object} key key to select the current component
+   */
   handleClick = key => {
     let title = "";
     let element = <div />;
@@ -96,7 +112,6 @@ class Dashboard extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-
     const drawer = (
       <div>
         <div className={classes.toolbar}>
@@ -203,9 +218,14 @@ class Dashboard extends React.Component {
   }
 }
 
+
+
 Dashboard.propTypes = {
+  /** Object styles of material UI */
   classes: PropTypes.object.isRequired,
+  /** Defining container grid in material UI */
   container: PropTypes.object,
+  /** Defining theme tools in material UI */
   theme: PropTypes.object.isRequired
 };
 
@@ -219,3 +239,4 @@ export default connect(
   null,
   mD
 )(withStyles(styles, { withTheme: true })(Dashboard));
+

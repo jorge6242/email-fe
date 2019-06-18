@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { Field, reduxForm } from "redux-form";
-import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
-import "./index.sass";
 import AutoComplete from "../AutoComplete";
+import TextField from '../ComponentFormTools/TextField';
+import TextAreaField from '../ComponentFormTools/TextArea';
+import "./index.sass";
 
 const styles = theme => ({
   formControl: {
@@ -17,6 +18,10 @@ const styles = theme => ({
     width: "100%"
   }
 });
+
+  /**
+   * Validation to the form
+   */
 
 const validate = values => {
   const errors = {};
@@ -29,39 +34,9 @@ const validate = values => {
   return errors;
 };
 
-const renderTextField = ({
-  input,
-  label,
-  classes,
-  meta: { touched, error },
-  ...custom
-}) => (
-  <TextField
-    hinttext={label}
-    label={label}
-    error={touched && error}
-    {...input}
-    {...custom}
-  />
-);
-
-const renderTextAreaField = ({
-  input,
-  label,
-  classes,
-  meta: { touched, error },
-  ...custom
-}) => (
-  <TextField
-    hinttext={label}
-    label={label}
-    error={touched && error}
-    {...input}
-    {...custom}
-    multiline
-    rows="4"
-  />
-);
+  /**
+   * Form component to Compose
+   */
 
 const ComposeForm = props => {
   const {
@@ -85,7 +60,7 @@ const ComposeForm = props => {
           <Field
             name="subject"
             type="text"
-            component={renderTextField}
+            component={TextField}
             label="Subject"
             className={classes.customInput}
           />
@@ -94,7 +69,7 @@ const ComposeForm = props => {
           <Field
             name="message"
             type="text"
-            component={renderTextAreaField}
+            component={TextAreaField}
             label="Message"
             className={classes.customInput}
           />

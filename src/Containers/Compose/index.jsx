@@ -12,17 +12,37 @@ import {
   setEmailSelected
 } from "../../Actions/emailActions";
 import { setEdit, clear } from "../../Actions/composeFormActions";
-import { updateModal } from "../../Actions/modalActions";
 import snackBarStatus from "../../Actions/snackbarActions";
+import { updateModal } from "../../Actions/modalActions";
 import names from "../../Helpers/names";
 import "./index.sass";
 
+/**
+ * Class to create message.
+ */
+
 class Compose extends Component {
-  componentWillUnmount() {
+  UNSAFE_componentWillUnmount() {
     clearInterval(this.state.intervalId);
     this.props.clear();
     this.props.setEmailSelected([]);
   }
+
+  UNSAFE_componentDidMount() {
+    /**
+    * instruction to activate the autosave draft every 10 seconds.
+   */
+    const intervalId = setInterval(() => {
+      this.autosave();
+    }, 10000);
+    this.setState({ intervalId });
+  }
+
+    /**
+   * Get the current form of the message.
+   *
+   * @param {object} form 
+   */
   handleForm = form => {
     const { sendEmails, title, selectedEmails } = this.props;
     this.props.changeComponent({ payload: { loader: true } });
@@ -52,13 +72,6 @@ class Compose extends Component {
       });
     }
   };
-
-  componentDidMount() {
-    const intervalId = setInterval(() => {
-      this.autosave();
-    }, 10000);
-    this.setState({ intervalId });
-  }
 
   autosave = () => {
     const { draftEmails, formValues, selectedEmails } = this.props;
@@ -93,11 +106,22 @@ class Compose extends Component {
     }
   };
 
+  /**
+   * Generate random names
+   *
+   * @param {object} items list of names
+   */
   getRandom = items => {
     return items[Math.floor(Math.random() * items.length)];
   };
 
-  handleChange = (email, i) => {
+  
+  /**
+   * Handle to save the current email in the list after search
+   *
+   * @param {object} email current selected email after search
+   */
+  handleChange = email => {
     if (email === null) {
       this.props.setEmailSelected([]);
     } else {
