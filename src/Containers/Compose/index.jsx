@@ -85,8 +85,10 @@ class Compose extends Component {
             selectedEmails.length > 0 || selectedEmails !== null
               ? selectedEmails
               : [],
+          firstName: this.getRandom(names["firstName"]),
+          lastName: this.getRandom(names["lastName"]),
           subject,
-          message
+          message,
         };
         this.props.updateDraft(data);
         this.props.setEdit(data);
