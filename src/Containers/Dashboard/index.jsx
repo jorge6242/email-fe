@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -20,6 +21,7 @@ import DraftIcon from "@material-ui/icons/Drafts";
 import FaceIcon from "@material-ui/icons/Face";
 import SendIcon from "@material-ui/icons/Send";
 import SearchIcon from "@material-ui/icons/Search";
+import ExitToApp from "@material-ui/icons/ExitToApp";
 import { Grid } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -87,6 +89,7 @@ class Dashboard extends React.Component {
    * @param {object} key key to select the current component
    */
   handleClick = key => {
+    const { history } = this.props;
     let title = "";
     let element = <div />;
     switch (key) {
@@ -101,6 +104,9 @@ class Dashboard extends React.Component {
       case "send":
         title = "Send";
         element = <Send />;
+        break;
+      case "logout":
+        history.push("/");
         break;
       default:
         break;
@@ -155,6 +161,12 @@ class Dashboard extends React.Component {
               <SendIcon />
             </ListItemIcon>
             <ListItemText primary={"Send"} />
+          </ListItem>
+          <ListItem button onClick={() => this.handleClick("logout")}>
+            <ListItemIcon>
+              <ExitToApp />
+            </ListItemIcon>
+            <ListItemText primary={"Logout"} />
           </ListItem>
         </List>
       </div>
@@ -243,8 +255,8 @@ const mD = {
   loadSuggestions,
 };
 
-export default connect(
+export default withRouter(connect(
   mS,
   mD
-)(withStyles(styles, { withTheme: true })(Dashboard));
+)(withStyles(styles, { withTheme: true })(Dashboard)));
 
