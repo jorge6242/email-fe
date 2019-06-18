@@ -22,13 +22,13 @@ import "./index.sass";
  */
 
 class Compose extends Component {
-  UNSAFE_componentWillUnmount() {
+  componentWillUnmount() {
     clearInterval(this.state.intervalId);
     this.props.clear();
     this.props.setEmailSelected([]);
   }
 
-  UNSAFE_componentDidMount() {
+  componentDidMount() {
     /**
     * instruction to activate the autosave draft every 10 seconds.
    */

@@ -110,6 +110,12 @@ class Dashboard extends React.Component {
     });
   };
 
+  handleSearch = e => {
+    const term = e.target.value.trim();
+    const data = JSON_DATA.filter( email => email.email.toLowerCase().indexOf(term.toLowerCase()) > -1);
+    this.props.loadInbox(data);
+  }
+
   render() {
     const { classes, theme } = this.props;
     const drawer = (
@@ -174,7 +180,7 @@ class Dashboard extends React.Component {
                     <SearchIcon />
                   </Grid>
                   <Grid item>
-                    <TextField id="input-with-icon-grid" label="Search" />
+                    <TextField id="input-with-icon-grid" label="Search" onChange={this.handleSearch} />
                   </Grid>
                 </Grid>
               </div>
@@ -229,6 +235,8 @@ Dashboard.propTypes = {
   theme: PropTypes.object.isRequired
 };
 
+const mS = ({ emailReducer: { inboxEmails } }) => ({ inboxEmails });
+
 const mD = {
   loadInbox,
   changeComponent,
@@ -236,7 +244,7 @@ const mD = {
 };
 
 export default connect(
-  null,
+  mS,
   mD
 )(withStyles(styles, { withTheme: true })(Dashboard));
 
