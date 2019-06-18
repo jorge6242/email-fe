@@ -128,13 +128,13 @@ class Dashboard extends React.Component {
     const drawer = (
       <div>
         <div className={classes.toolbar}>
-          <Grid container spacing={0}>
+          <Grid container spacing={0} className={classes.account}>
             <Grid item xs={12}>
               <Avatar className={classes.avatar}>
                 <FaceIcon className={classes.icon} />
               </Avatar>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.customSelect}>
               <FormControl className={classes.formControl}>
                 <Select value={1}>
                   <MenuItem value={1}>heyfromjonathan</MenuItem>

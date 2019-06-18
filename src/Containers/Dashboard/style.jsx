@@ -5,7 +5,7 @@ const styles = theme => ({
     display: "flex"
   },
   avatar: {
-   margin: 10,
+  margin: '0 auto',
    width: '80px',
    height: '80px',
   },
@@ -19,6 +19,12 @@ const styles = theme => ({
   formControl: {
    margin: theme.spacing(1),
    minWidth: 120,
+  },
+  customSelect: {
+    textAlign: 'center',
+  },
+  account: {
+    marginTop: 10,
   },
   drawer: {
     [theme.breakpoints.up("sm")]: {
