@@ -6,6 +6,12 @@
 - Material UI
 - Redux
 
+### Requirements
+
+- NodeJS
+- NPM
+- Yarn
+
 ### Installation
 
 - `yarn`
