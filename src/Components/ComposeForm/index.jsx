@@ -6,6 +6,7 @@ import { Field, reduxForm } from "redux-form";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import "./index.sass";
+import AutoComplete from "../AutoComplete";
 
 const styles = theme => ({
   formControl: {
@@ -69,19 +70,16 @@ const ComposeForm = props => {
     reset,
     submitting,
     handleForm,
-    classes
+    classes,
+    suggestions,
+    handleChange,
+    selectedEmails,
   } = props;
   return (
     <Grid container spacing={0} className="compose-form">
       <form onSubmit={handleSubmit(handleForm)}>
         <Grid item xs={12} className="compose-form__field">
-          <Field
-            name="email"
-            type="text"
-            component={renderTextField}
-            label="To"
-            className={classes.customInput}
-          />
+          <AutoComplete suggestions={suggestions} handleChange={handleChange} values={selectedEmails} />
         </Grid>
         <Grid item xs={12} className="compose-form__field">
           <Field
@@ -133,7 +131,9 @@ const CustomComposeForm = reduxForm({
 
 const mS = state => ({
  initialValues: state.composeFormReducer,
- ComposeForm: state.composeFormReducer
+ ComposeForm: state.composeFormReducer,
+ suggestions: state.emailReducer.suggestions,
+ selectedEmails: state.emailReducer.selectedEmails,
 });
 
 export default withStyles(styles)(connect(mS)(CustomComposeForm));

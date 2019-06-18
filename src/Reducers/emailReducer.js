@@ -14,6 +14,8 @@ const initialState = {
     message: ""
   },
   loader: false,
+  suggestions: [],
+  selectedEmails: [],
 };
 
 const updateDraft = (state, payload) => {
@@ -48,6 +50,11 @@ const emailReducer = (state = initialState, action) => {
         ...state,
         inboxEmails: action.payload
       };
+    case ACTIONS.LOAD_SUGGESTIONS:
+      return {
+        ...state,
+        suggestions: action.payload
+      };
     case ACTIONS.GET_EMAIL:
       return {
         ...state,
@@ -78,6 +85,11 @@ const emailReducer = (state = initialState, action) => {
       return {
         ...state,
         selectedEMail: initialState.selectedEMail
+      };
+    case ACTIONS.SET_EMAIL_SELECTED:
+      return {
+        ...state,
+        selectedEmails: action.payload
       };
     default:
       return state;

@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { Grid } from '@material-ui/core';
 import DataTable from '../DataTable';
 import { updateModal } from "../../Actions/modalActions";
-import { getSelectedEmail } from "../../Actions/emailActions";
+import { getSelectedEmail, setEmailSelected } from "../../Actions/emailActions";
 import { setEdit } from '../../Actions/composeFormActions'
 import Compose from '../../Containers/Compose';
 
 class Draft extends Component {
  handleClick = email => {
     this.props.setEdit(email);
+    this.props.setEmailSelected(email.email);
     this.props.updateModal({
       payload: { status: true, title: "Draft Message", element: <Compose /> }
   });
@@ -32,6 +33,7 @@ const mD = {
  updateModal,
  getSelectedEmail,
  setEdit,
+ setEmailSelected,
 }
 
 export default connect(mS,mD)(Draft);

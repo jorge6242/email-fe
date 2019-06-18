@@ -1,23 +1,54 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
-import { clearSelectedEmail } from '../../Actions/emailActions';
-import './index.sass';
+import { clearSelectedEmail } from "../../Actions/emailActions";
+import "./index.sass";
 
 class EmailView extends Component {
   componentWillUnmount() {
-   this.props.clearSelectedEmail();
+    this.props.clearSelectedEmail();
   }
+
+  renderEmails = () => {
+    const { selectedEMail: { email } } = this.props;
+    let list = '';
+    const count = email.length;
+    email.forEach((element, index) => {
+      list += `${element.label} ${index +1 === count ? '' : ', '}`;
+    });
+    return list;
+  };
+
   render() {
     const {
-      selectedEMail: { firstName, lastName, email, subject, message }
+      selectedEMail: { firstName, lastName, subject, message, email }
     } = this.props;
     return (
       <Grid container spacing={0} className="email-view-container">
-        <Grid item xs={2} className="email-view-container__title">Name</Grid><Grid item xs={10} className="email-view-container__field"> {firstName} {lastName} </Grid>
-        <Grid item xs={2} className="email-view-container__title">Email</Grid>  <Grid item xs={10} className="email-view-container__field">{email}</Grid>
-        <Grid item xs={2} className="email-view-container__title">Subject</Grid>  <Grid item xs={10} className="email-view-container__field">{subject}</Grid>
-        <Grid item xs={2} className="email-view-container__title">Message</Grid>  <Grid item xs={10}>{message}</Grid>
+        <Grid item xs={2} className="email-view-container__title">
+          Name
+        </Grid>
+        <Grid item xs={10} className="email-view-container__field">
+          {firstName} {lastName}
+        </Grid>
+        <Grid item xs={2} className="email-view-container__title">
+          Email
+        </Grid>
+        <Grid item xs={10} className="email-view-container__field">
+          { typeof email === 'string' ? email : this.renderEmails()}
+        </Grid>
+        <Grid item xs={2} className="email-view-container__title">
+          Subject
+        </Grid>
+        <Grid item xs={10} className="email-view-container__field">
+          {subject}
+        </Grid>
+        <Grid item xs={2} className="email-view-container__title">
+          Message
+        </Grid>
+        <Grid item xs={10}>
+          {message}
+        </Grid>
       </Grid>
     );
   }
@@ -26,7 +57,10 @@ class EmailView extends Component {
 const mS = ({ emailReducer: { selectedEMail } }) => ({ selectedEMail });
 
 const mD = {
- clearSelectedEmail,
+  clearSelectedEmail
 };
 
-export default connect(mS,mD)(EmailView);
+export default connect(
+  mS,
+  mD
+)(EmailView);

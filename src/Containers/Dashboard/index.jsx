@@ -32,7 +32,7 @@ import Inbox from "../../Components/Inbox";
 import JSON_DATA from "../../data/emails.json";
 import Draft from "../../Components/Draft";
 import Send from "../../Components/Send";
-import { changeComponent } from "../../Actions/emailActions";
+import { changeComponent, loadSuggestions } from "../../Actions/emailActions";
 import styles from "./style";
 
 class Dashboard extends React.Component {
@@ -43,7 +43,18 @@ class Dashboard extends React.Component {
   UNSAFE_componentWillMount() {
     this.importData().then(data => {
       this.props.loadInbox(data);
+      this.suggestions(data);
     });
+  }
+  
+  suggestions = data => {
+    const suggestions = data.map(email => {
+      return {
+        value: email.email,
+        label: email.email,
+      }
+    });
+    this.props.loadSuggestions(suggestions);
   }
 
   importData = () =>
@@ -200,7 +211,8 @@ Dashboard.propTypes = {
 
 const mD = {
   loadInbox,
-  changeComponent
+  changeComponent,
+  loadSuggestions,
 };
 
 export default connect(

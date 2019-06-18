@@ -3,12 +3,23 @@ import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router-dom";
 import LoginForm from "../../Components/LoginForm";
+import snackBarStatus from "../../Actions/snackbarActions";
 import "./index.sass";
 
 class Login extends Component {
-  handleForm = () => {
+  handleForm = form => {
     const { history } = this.props;
-    history.push("/dashboard");
+    if (form.email === 'test@getsirena.com' && form.password === 'test') {
+      history.push("/dashboard");
+    } else {
+      this.props.snackBarStatus({
+        payload: {
+          enable: true,
+          title: "Bad Credentials",
+          type: "error"
+        }
+      });
+    }
   };
 
   render() {
@@ -24,9 +35,14 @@ class Login extends Component {
     );
   }
 }
+
+const mD = {
+  snackBarStatus,
+}
+
 export default withRouter(
   connect(
     null,
-    null
+    mD
   )(Login)
 );
