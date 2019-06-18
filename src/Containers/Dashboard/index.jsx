@@ -114,6 +114,7 @@ class Dashboard extends React.Component {
     this.props.changeComponent({
       payload: { title, element }
     });
+    this.setState({ mobileOpen: false });
   };
 
   handleSearch = e => {

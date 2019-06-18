@@ -32,28 +32,28 @@ class EmailView extends Component {
     } = this.props;
     return (
       <Grid container spacing={0} className="email-view-container">
-        <Grid item xs={2} className="email-view-container__title">
+        <Grid item xs={3} md={2} className="email-view-container__title">
           Name
         </Grid>
-        <Grid item xs={10} className="email-view-container__field">
+        <Grid item xs={9} md={10} className="email-view-container__field">
           {firstName} {lastName}
         </Grid>
-        <Grid item xs={2} className="email-view-container__title">
+        <Grid item xs={3} md={2} className="email-view-container__title">
           Email
         </Grid>
-        <Grid item xs={10} className="email-view-container__field">
+        <Grid item xs={9} md={10} className="email-view-container__field">
           {typeof email === "string" ? email : this.renderEmails()}
         </Grid>
-        <Grid item xs={2} className="email-view-container__title">
+        <Grid item xs={3} md={2} className="email-view-container__title">
           Subject
         </Grid>
-        <Grid item xs={10} className="email-view-container__field">
+        <Grid item xs={9} md={10} className="email-view-container__field">
           {subject}
         </Grid>
-        <Grid item xs={2} className="email-view-container__title">
+        <Grid item xs={3} md={2} className="email-view-container__title">
           Message
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={9} md={10}>
           {message}
         </Grid>
       </Grid>

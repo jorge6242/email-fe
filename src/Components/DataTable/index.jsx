@@ -8,16 +8,17 @@ import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Avatar from '@material-ui/core/Avatar';
 import Pagination from "./Pagination";
 import styles from "./style";
 import { Grid } from "@material-ui/core";
 
-  /**
-   * Class Generic DataTable
-   */
+/**
+ * Class Generic DataTable
+ */
 class DataTable extends React.Component {
   state = {
-    page: 0,
+    page: 0
   };
 
   /**
@@ -34,6 +35,10 @@ class DataTable extends React.Component {
     this.setState({ page: 0, rowsPerPage: event.target.value });
   };
 
+  renderSortName = row => {
+    return `${row.firstName.charAt(0).toUpperCase()}${row.lastName.charAt(0).toUpperCase()}`;
+  }
+
   render() {
     const { classes, rows, handleClick } = this.props;
     const { page } = this.state;
@@ -49,14 +54,25 @@ class DataTable extends React.Component {
               {rows
                 .slice(page * pagination, page * pagination + pagination)
                 .map(row => (
-                  <TableRow key={row.id} className={classes.tableRow} onClick={() => handleClick(row)}>
+                  <TableRow
+                    key={row.id}
+                    className={classes.tableRow}
+                    onClick={() => handleClick(row)}
+                  >
                     <TableCell component="th" scope="row">
                       <Grid container spacing={0}>
-                        <Grid item xs={12} className={classes.subject}>
-                          {row.subject}
+                        <Grid item xs={2} md={1}>
+                          <Avatar className={classes.avatar}>{this.renderSortName(row)}</Avatar>
                         </Grid>
-                        <Grid item xs={12} className={classes.message}>
-                          {row.firstName} {row.lastName} - {row.message}
+                        <Grid item xs={10} md={11}>
+                          <Grid container spacing={0}>
+                            <Grid item xs={12} className={classes.subject}>
+                              {row.subject}
+                            </Grid>
+                            <Grid item xs={12} className={classes.message}>
+                              {row.firstName} {row.lastName} - {row.message}
+                            </Grid>
+                          </Grid>
                         </Grid>
                       </Grid>
                     </TableCell>
