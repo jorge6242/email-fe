@@ -49,11 +49,15 @@ class Compose extends Component {
     this.props.changeComponent({ payload: { loader: true } });
     if (selectedEmails.length > 0) {
       if (title === "Draft Message") this.props.removeDraft(form);
-      form.id = sendEmails.length += 1;
-      form.firstName = this.getRandom(names["firstName"]);
-      form.lastName = this.getRandom(names["lastName"]);
-      form.email = selectedEmails;
-      this.props.sendEmail(form);
+      const email = {
+        ...form,
+        firstName: this.getRandom(names["firstName"]),
+        lastName: this.getRandom(names["lastName"]),
+        email: selectedEmails,
+      }
+      email.id = sendEmails.length + 1;
+      sendEmails.push(email)
+      this.props.sendEmail(sendEmails);
       this.props.updateModal({ payload: { status: false, element: <div /> } });
       this.props.changeComponent({ payload: { loader: false } });
       this.props.snackBarStatus({
@@ -95,7 +99,7 @@ class Compose extends Component {
         this.props.setEdit(data);
       } else {
         const data = {
-          id: (draftEmails.length += 1),
+          id: draftEmails.length + 1,
           email: selectedEmails.length > 0 ? selectedEmails : [],
           firstName: this.getRandom(names["firstName"]),
           lastName: this.getRandom(names["lastName"]),
@@ -118,11 +122,17 @@ class Compose extends Component {
     return items[Math.floor(Math.random() * items.length)];
   };
 
-  onInputChange = (value, event) => {
+    /**
+   * Search emails and insert data into autocomplete component
+   *
+   * @param {string} term search value
+   * @param {object} event type of event
+   */
+  onInputChange = (term, event) => {
     const { inboxEmails } = this.props;
     if (event.action === "input-change") {
       const data = inboxEmails.filter(
-        email => email.email.toLowerCase().indexOf(value.toLowerCase()) > -1
+        email => email.email.toLowerCase().indexOf(term.toLowerCase()) > -1
       );
       const suggestions = data.map(email => {
         return {

@@ -260,7 +260,7 @@ export default function AutoComplete(props) {
           components={components}
           value={values}
           onChange={handleChange}
-          onInputChange={_.debounce(onInputChange, 500)}
+          onInputChange={_.debounce(onInputChange, 1000)}
           isMulti
           placeholder="To"
         />
