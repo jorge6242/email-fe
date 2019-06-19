@@ -76,9 +76,8 @@ class Dashboard extends React.Component {
   /**
    * Handle to show/hide the drawer
    */
-  handleDrawerToggle = () => {
+  handleDrawerToggle = () =>
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
-  };
 
   /**
    * Handle to select current component in the main app
@@ -117,7 +116,9 @@ class Dashboard extends React.Component {
   handleSearch = e => {
     const term = e.target.value.trim();
     const data = JSON_DATA.filter(
-      email => email.email.toLowerCase().indexOf(term.toLowerCase()) > -1
+      email =>
+        email.email.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+        email.firstName.toLowerCase().indexOf(term.toLowerCase()) > -1
     );
     this.props.loadInbox(data);
   };
