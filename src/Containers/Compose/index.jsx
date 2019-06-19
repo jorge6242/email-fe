@@ -9,7 +9,8 @@ import {
   createDraft,
   updateDraft,
   removeDraft,
-  setEmailSelected
+  setEmailSelected,
+  loadSuggestions
 } from "../../Actions/emailActions";
 import { setEdit, clear } from "../../Actions/composeFormActions";
 import snackBarStatus from "../../Actions/snackbarActions";
@@ -30,18 +31,18 @@ class Compose extends Component {
 
   componentDidMount() {
     /**
-    * instruction to activate the autosave draft every 10 seconds.
-   */
+     * instruction to activate the autosave draft every 10 seconds.
+     */
     const intervalId = setInterval(() => {
       this.autosave();
     }, 10000);
     this.setState({ intervalId });
   }
 
-    /**
+  /**
    * Get the current form of the message.
    *
-   * @param {object} form 
+   * @param {object} form
    */
   handleForm = form => {
     const { sendEmails, title, selectedEmails } = this.props;
@@ -88,7 +89,7 @@ class Compose extends Component {
           firstName: this.getRandom(names["firstName"]),
           lastName: this.getRandom(names["lastName"]),
           subject,
-          message,
+          message
         };
         this.props.updateDraft(data);
         this.props.setEdit(data);
@@ -117,7 +118,22 @@ class Compose extends Component {
     return items[Math.floor(Math.random() * items.length)];
   };
 
-  
+  onInputChange = (value, event) => {
+    const { inboxEmails } = this.props;
+    if (event.action === "input-change") {
+      const data = inboxEmails.filter(
+        email => email.email.toLowerCase().indexOf(value.toLowerCase()) > -1
+      );
+      const suggestions = data.map(email => {
+        return {
+          value: email.email,
+          label: email.email
+        };
+      });
+      this.props.loadSuggestions(suggestions);
+    }
+  };
+
   /**
    * Handle to save the current email in the list after search
    *
@@ -138,6 +154,7 @@ class Compose extends Component {
           <ComposeForm
             handleForm={this.handleForm}
             handleChange={this.handleChange}
+            onInputChange={this.onInputChange}
           />
         </Grid>
       </Grid>
@@ -147,12 +164,14 @@ class Compose extends Component {
 const selector = formValueSelector("ComposeForm");
 const mS = state => {
   const formValues = selector(state, "email", "subject", "message", "id");
+  const inboxEmails = state.emailReducer.inboxEmails;
   const sendEmails = state.emailReducer.sendEmails;
   const draftEmails = state.emailReducer.draftEmails;
   const selectedEmails = state.emailReducer.selectedEmails;
   const title = state.modalReducer.title;
   return {
     formValues,
+    inboxEmails,
     sendEmails,
     draftEmails,
     title,
@@ -170,7 +189,8 @@ const mD = {
   clear,
   updateDraft,
   removeDraft,
-  setEmailSelected
+  setEmailSelected,
+  loadSuggestions
 };
 
 export default connect(

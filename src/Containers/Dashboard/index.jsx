@@ -37,7 +37,6 @@ import Send from "../../Components/Send";
 import { changeComponent, loadSuggestions } from "../../Actions/emailActions";
 import styles from "./style";
 
-
 /**
  * Class to show the main app.
  */
@@ -49,19 +48,18 @@ class Dashboard extends React.Component {
   UNSAFE_componentWillMount() {
     this.importData().then(data => {
       this.props.loadInbox(data);
-      this.suggestions(data);
     });
   }
-  
+
   suggestions = data => {
     const suggestions = data.map(email => {
       return {
         value: email.email,
-        label: email.email,
-      }
+        label: email.email
+      };
     });
     this.props.loadSuggestions(suggestions);
-  }
+  };
 
   /**
    * Import data to render inbox email list
@@ -82,7 +80,6 @@ class Dashboard extends React.Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  
   /**
    * Handle to select current component in the main app
    *
@@ -119,9 +116,11 @@ class Dashboard extends React.Component {
 
   handleSearch = e => {
     const term = e.target.value.trim();
-    const data = JSON_DATA.filter( email => email.email.toLowerCase().indexOf(term.toLowerCase()) > -1);
+    const data = JSON_DATA.filter(
+      email => email.email.toLowerCase().indexOf(term.toLowerCase()) > -1
+    );
     this.props.loadInbox(data);
-  }
+  };
 
   render() {
     const { classes, theme } = this.props;
@@ -193,7 +192,11 @@ class Dashboard extends React.Component {
                     <SearchIcon />
                   </Grid>
                   <Grid item>
-                    <TextField id="input-with-icon-grid" label="Search" onChange={this.handleSearch} />
+                    <TextField
+                      id="input-with-icon-grid"
+                      label="Search"
+                      onChange={this.handleSearch}
+                    />
                   </Grid>
                 </Grid>
               </div>
@@ -237,8 +240,6 @@ class Dashboard extends React.Component {
   }
 }
 
-
-
 Dashboard.propTypes = {
   /** Object styles of material UI */
   classes: PropTypes.object.isRequired,
@@ -253,11 +254,12 @@ const mS = ({ emailReducer: { inboxEmails } }) => ({ inboxEmails });
 const mD = {
   loadInbox,
   changeComponent,
-  loadSuggestions,
+  loadSuggestions
 };
 
-export default withRouter(connect(
-  mS,
-  mD
-)(withStyles(styles, { withTheme: true })(Dashboard)));
-
+export default withRouter(
+  connect(
+    mS,
+    mD
+  )(withStyles(styles, { withTheme: true })(Dashboard))
+);
