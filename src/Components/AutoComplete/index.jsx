@@ -1,64 +1,67 @@
-import React from 'react';
-import clsx from 'clsx';
-import Select from 'react-select';
-import { emphasize, makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import NoSsr from '@material-ui/core/NoSsr';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Chip from '@material-ui/core/Chip';
-import MenuItem from '@material-ui/core/MenuItem';
-import CancelIcon from '@material-ui/icons/Cancel';
-import PropTypes from 'prop-types';
+import React from "react";
+import clsx from "clsx";
+import _ from "lodash";
+import Select from "react-select";
+import { emphasize, makeStyles, useTheme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import NoSsr from "@material-ui/core/NoSsr";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import Chip from "@material-ui/core/Chip";
+import MenuItem from "@material-ui/core/MenuItem";
+import CancelIcon from "@material-ui/icons/Cancel";
+import PropTypes from "prop-types";
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    marginTop: '40px',
+    marginTop: "40px"
   },
   input: {
-    display: 'flex',
+    display: "flex",
     padding: 0,
-    height: 'auto',
+    height: "auto"
   },
   valueContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
     flex: 1,
-    alignItems: 'center',
-    overflow: 'hidden',
+    alignItems: "center",
+    overflow: "hidden"
   },
   chip: {
-    margin: theme.spacing(0.5, 0.25),
+    margin: theme.spacing(0.5, 0.25)
   },
   chipFocused: {
     backgroundColor: emphasize(
-      theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
-      0.08,
-    ),
+      theme.palette.type === "light"
+        ? theme.palette.grey[300]
+        : theme.palette.grey[700],
+      0.08
+    )
   },
   noOptionsMessage: {
-    padding: theme.spacing(1, 2),
+    padding: theme.spacing(1, 2)
   },
   singleValue: {
-    fontSize: 16,
+    fontSize: 16
   },
   placeholder: {
-    position: 'absolute',
+    position: "absolute",
     left: 2,
     bottom: 6,
-    fontSize: 16,
+    fontSize: 16
   },
   paper: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 1,
     marginTop: theme.spacing(1),
     left: 0,
-    right: 0,
+    right: 0
   },
   divider: {
-    height: theme.spacing(2),
-  },
+    height: theme.spacing(2)
+  }
 }));
 
 function NoOptionsMessage(props) {
@@ -76,7 +79,7 @@ function NoOptionsMessage(props) {
 NoOptionsMessage.propTypes = {
   children: PropTypes.node,
   innerProps: PropTypes.object,
-  selectProps: PropTypes.object.isRequired,
+  selectProps: PropTypes.object.isRequired
 };
 
 function inputComponent({ inputRef, ...props }) {
@@ -84,7 +87,7 @@ function inputComponent({ inputRef, ...props }) {
 }
 
 inputComponent.propTypes = {
-  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
 };
 
 function Control(props) {
@@ -92,7 +95,7 @@ function Control(props) {
     children,
     innerProps,
     innerRef,
-    selectProps: { classes, TextFieldProps },
+    selectProps: { classes, TextFieldProps }
   } = props;
 
   return (
@@ -104,8 +107,8 @@ function Control(props) {
           className: classes.input,
           ref: innerRef,
           children,
-          ...innerProps,
-        },
+          ...innerProps
+        }
       }}
       {...TextFieldProps}
     />
@@ -116,7 +119,7 @@ Control.propTypes = {
   children: PropTypes.node,
   innerProps: PropTypes.object,
   innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  selectProps: PropTypes.object.isRequired,
+  selectProps: PropTypes.object.isRequired
 };
 
 function Option(props) {
@@ -126,7 +129,7 @@ function Option(props) {
       selected={props.isFocused}
       component="div"
       style={{
-        fontWeight: props.isSelected ? 500 : 400,
+        fontWeight: props.isSelected ? 500 : 400
       }}
       {...props.innerProps}
     >
@@ -140,7 +143,7 @@ Option.propTypes = {
   innerProps: PropTypes.object,
   innerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   isFocused: PropTypes.bool,
-  isSelected: PropTypes.bool,
+  isSelected: PropTypes.bool
 };
 
 function Placeholder(props) {
@@ -158,25 +161,30 @@ function Placeholder(props) {
 Placeholder.propTypes = {
   children: PropTypes.node,
   innerProps: PropTypes.object,
-  selectProps: PropTypes.object.isRequired,
+  selectProps: PropTypes.object.isRequired
 };
 
 function ValueContainer(props) {
-  return <div className={props.selectProps.classes.valueContainer}>{props.children}</div>;
+  return (
+    <div className={props.selectProps.classes.valueContainer}>
+      {props.children}
+    </div>
+  );
 }
 
 ValueContainer.propTypes = {
   children: PropTypes.node,
-  selectProps: PropTypes.object.isRequired,
+  selectProps: PropTypes.object.isRequired
 };
 
 function MultiValue(props) {
   return (
     <Chip
+      color="primary"
       tabIndex={-1}
       label={props.children}
       className={clsx(props.selectProps.classes.chip, {
-        [props.selectProps.classes.chipFocused]: props.isFocused,
+        [props.selectProps.classes.chipFocused]: props.isFocused
       })}
       onDelete={props.removeProps.onClick}
       deleteIcon={<CancelIcon {...props.removeProps} />}
@@ -188,12 +196,16 @@ MultiValue.propTypes = {
   children: PropTypes.node,
   isFocused: PropTypes.bool,
   removeProps: PropTypes.object.isRequired,
-  selectProps: PropTypes.object.isRequired,
+  selectProps: PropTypes.object.isRequired
 };
 
 function Menu(props) {
   return (
-    <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
+    <Paper
+      square
+      className={props.selectProps.classes.paper}
+      {...props.innerProps}
+    >
       {props.children}
     </Paper>
   );
@@ -202,7 +214,7 @@ function Menu(props) {
 Menu.propTypes = {
   children: PropTypes.node,
   innerProps: PropTypes.object,
-  selectProps: PropTypes.object,
+  selectProps: PropTypes.object
 };
 
 const components = {
@@ -213,11 +225,22 @@ const components = {
   Option,
   Placeholder,
   ValueContainer,
-  DropdownIndicator: () => null,
+  DropdownIndicator: () => null
 };
 
+/**
+ * Generic Autocomplete to search data
+ *
+ * @param {object} suggestions data
+ * @param {function} handleChange Handle to get data
+ * @param {function} onInputChange Handle to modify the search data
+ * @param {object} values Current data
+ *
+ *
+ */
+
 export default function AutoComplete(props) {
-  const { suggestions, handleChange, values } = props;
+  const { suggestions, handleChange, values, onInputChange } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -225,10 +248,10 @@ export default function AutoComplete(props) {
     input: base => ({
       ...base,
       color: theme.palette.text.primary,
-      '& input': {
-        font: 'inherit',
-      },
-    }),
+      "& input": {
+        font: "inherit"
+      }
+    })
   };
 
   return (
@@ -240,17 +263,18 @@ export default function AutoComplete(props) {
           inputId="react-select-multiple"
           TextFieldProps={{
             InputLabelProps: {
-              htmlFor: 'react-select-multiple',
-              shrink: true,
+              htmlFor: "react-select-multiple",
+              shrink: true
             },
-            placeholder: 'To',
+            placeholder: "To"
           }}
           options={suggestions}
           components={components}
           value={values}
           onChange={handleChange}
+          onInputChange={_.debounce(onInputChange, 1000)}
           isMulti
-          placeholder='To'
+          placeholder="To"
         />
       </NoSsr>
     </div>

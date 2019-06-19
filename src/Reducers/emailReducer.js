@@ -61,10 +61,9 @@ const emailReducer = (state = initialState, action) => {
         selectedEMail: action.payload
       };
     case ACTIONS.SEND_EMAIL:
-      state.sendEmails.push(action.payload);
       return {
         ...state,
-        sendEmails: state.sendEmails
+        sendEmails: action.payload
       };
     case ACTIONS.CREATE_DRAFT:
       state.draftEmails.push(action.payload);
