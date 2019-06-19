@@ -9,7 +9,8 @@ import {
   createDraft,
   updateDraft,
   removeDraft,
-  setEmailSelected
+  setEmailSelected,
+  loadSuggestions
 } from "../../Actions/emailActions";
 import { setEdit, clear } from "../../Actions/composeFormActions";
 import snackBarStatus from "../../Actions/snackbarActions";
@@ -30,29 +31,33 @@ class Compose extends Component {
 
   componentDidMount() {
     /**
-    * instruction to activate the autosave draft every 10 seconds.
-   */
+     * instruction to activate the autosave draft every 10 seconds.
+     */
     const intervalId = setInterval(() => {
       this.autosave();
     }, 10000);
     this.setState({ intervalId });
   }
 
-    /**
+  /**
    * Get the current form of the message.
    *
-   * @param {object} form 
+   * @param {object} form
    */
   handleForm = form => {
     const { sendEmails, title, selectedEmails } = this.props;
     this.props.changeComponent({ payload: { loader: true } });
     if (selectedEmails.length > 0) {
       if (title === "Draft Message") this.props.removeDraft(form);
-      form.id = sendEmails.length += 1;
-      form.firstName = this.getRandom(names["firstName"]);
-      form.lastName = this.getRandom(names["lastName"]);
-      form.email = selectedEmails;
-      this.props.sendEmail(form);
+      const email = {
+        ...form,
+        firstName: this.getRandom(names["firstName"]),
+        lastName: this.getRandom(names["lastName"]),
+        email: selectedEmails,
+      }
+      email.id = sendEmails.length + 1;
+      sendEmails.push(email)
+      this.props.sendEmail(sendEmails);
       this.props.updateModal({ payload: { status: false, element: <div /> } });
       this.props.changeComponent({ payload: { loader: false } });
       this.props.snackBarStatus({
@@ -88,13 +93,13 @@ class Compose extends Component {
           firstName: this.getRandom(names["firstName"]),
           lastName: this.getRandom(names["lastName"]),
           subject,
-          message,
+          message
         };
         this.props.updateDraft(data);
         this.props.setEdit(data);
       } else {
         const data = {
-          id: (draftEmails.length += 1),
+          id: draftEmails.length + 1,
           email: selectedEmails.length > 0 ? selectedEmails : [],
           firstName: this.getRandom(names["firstName"]),
           lastName: this.getRandom(names["lastName"]),
@@ -117,7 +122,28 @@ class Compose extends Component {
     return items[Math.floor(Math.random() * items.length)];
   };
 
-  
+    /**
+   * Search emails and insert data into autocomplete component
+   *
+   * @param {string} term search value
+   * @param {object} event type of event
+   */
+  onInputChange = (term, event) => {
+    const { inboxEmails } = this.props;
+    if (event.action === "input-change") {
+      const data = inboxEmails.filter(
+        email => email.email.toLowerCase().indexOf(term.toLowerCase()) > -1
+      );
+      const suggestions = data.map(email => {
+        return {
+          value: email.email,
+          label: email.email
+        };
+      });
+      this.props.loadSuggestions(suggestions);
+    }
+  };
+
   /**
    * Handle to save the current email in the list after search
    *
@@ -138,6 +164,7 @@ class Compose extends Component {
           <ComposeForm
             handleForm={this.handleForm}
             handleChange={this.handleChange}
+            onInputChange={this.onInputChange}
           />
         </Grid>
       </Grid>
@@ -147,12 +174,14 @@ class Compose extends Component {
 const selector = formValueSelector("ComposeForm");
 const mS = state => {
   const formValues = selector(state, "email", "subject", "message", "id");
+  const inboxEmails = state.emailReducer.inboxEmails;
   const sendEmails = state.emailReducer.sendEmails;
   const draftEmails = state.emailReducer.draftEmails;
   const selectedEmails = state.emailReducer.selectedEmails;
   const title = state.modalReducer.title;
   return {
     formValues,
+    inboxEmails,
     sendEmails,
     draftEmails,
     title,
@@ -170,7 +199,8 @@ const mD = {
   clear,
   updateDraft,
   removeDraft,
-  setEmailSelected
+  setEmailSelected,
+  loadSuggestions
 };
 
 export default connect(
