@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
+import Paper from '@material-ui/core/Paper';
 import { withRouter } from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
 import LoginForm from "../../Components/LoginForm";
 import snackBarStatus from "../../Actions/snackbarActions";
 import "./index.sass";
@@ -10,14 +12,13 @@ import "./index.sass";
  * Class to Login
  */
 class Login extends Component {
-
   /**
    * Get the current form of the message.
-   * @param {object} form 
+   * @param {object} form
    */
   handleForm = form => {
     const { history } = this.props;
-    if (form.email === 'test@getsirena.com' && form.password === 'test') {
+    if (form.email === "test@getsirena.com" && form.password === "test") {
       history.push("/dashboard");
     } else {
       this.props.snackBarStatus({
@@ -39,14 +40,22 @@ class Login extends Component {
         <Grid item xs={12} className="login-container__form">
           <LoginForm handleForm={this.handleForm} />
         </Grid>
+        <Grid container spacing={0}>
+        <Grid item xs={3} className="login-container__info">
+          <Paper>
+            <Typography variant="h5" component="h5">User: test@getsirena.com</Typography>
+            <Typography variant="h5" component="h5">Password: test</Typography>
+          </Paper>
+        </Grid>
+        </Grid>
       </Grid>
     );
   }
 }
 
 const mD = {
-  snackBarStatus,
-}
+  snackBarStatus
+};
 
 export default withRouter(
   connect(

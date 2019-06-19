@@ -8,13 +8,19 @@ import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "@material-ui/core/Avatar";
 import Pagination from "./Pagination";
 import styles from "./style";
 import { Grid } from "@material-ui/core";
 
 /**
- * Class Generic DataTable
+ * Generic data table
+ *
+ * Render props:
+ * @param {object} rows data
+ * @param {function} handleClick Handle to get data
+ *
+ *
  */
 class DataTable extends React.Component {
   state = {
@@ -24,20 +30,18 @@ class DataTable extends React.Component {
   /**
    * Handle to paginate
    */
-  handleChangePage = (event, page) => {
-    this.setState({ page });
-  };
+  handleChangePage = (event, page) => this.setState({ page });
 
   /**
    * Handle to show rows per page
    */
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = event =>
     this.setState({ page: 0, rowsPerPage: event.target.value });
-  };
 
-  renderSortName = row => {
-    return `${row.firstName.charAt(0).toUpperCase()}${row.lastName.charAt(0).toUpperCase()}`;
-  }
+  renderSortName = row =>
+    `${row.firstName.charAt(0).toUpperCase()}${row.lastName
+      .charAt(0)
+      .toUpperCase()}`;
 
   render() {
     const { classes, rows, handleClick } = this.props;
@@ -62,7 +66,9 @@ class DataTable extends React.Component {
                     <TableCell component="th" scope="row">
                       <Grid container spacing={0}>
                         <Grid item xs={2} md={1}>
-                          <Avatar className={classes.avatar}>{this.renderSortName(row)}</Avatar>
+                          <Avatar className={classes.avatar}>
+                            {this.renderSortName(row)}
+                          </Avatar>
                         </Grid>
                         <Grid item xs={10} md={11}>
                           <Grid container spacing={0}>

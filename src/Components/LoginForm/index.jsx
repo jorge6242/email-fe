@@ -29,45 +29,48 @@ const validate = values => {
 /**
  * Form component to Login
  */
-const LoginForm = props => {
-  const { handleSubmit, pristine, reset, submitting, handleForm } = props;
-  return (
-    <Grid container spacing={0} className="login-form">
-      <form onSubmit={handleSubmit(handleForm)}>
-        <Grid item xs={12} className="login-form__field">
-          <Field name="email" type="name" component={TextField} label="Email" />
-        </Grid>
-        <Grid item xs={12} className="login-form__field">
-          <Field
-            name="password"
-            type="password"
-            component={TextField}
-            label="Password"
-          />
-        </Grid>
-        <Grid item xs={12} className="login-form__field">
-          <Button
-            type="submit"
-            disabled={submitting}
-            variant="contained"
-            color="primary"
-          >
-            Login
-          </Button>
-          <Button
-            type="button"
-            disabled={pristine || submitting}
-            variant="contained"
-            color="secondary"
-            onClick={reset}
-          >
-            Clear Values
-          </Button>
-        </Grid>
-      </form>
-    </Grid>
-  );
-};
+const LoginForm = ({
+  handleSubmit,
+  pristine,
+  reset,
+  submitting,
+  handleForm
+}) => (
+  <Grid container spacing={0} className="login-form">
+    <form onSubmit={handleSubmit(handleForm)}>
+      <Grid item xs={12} className="login-form__field">
+        <Field name="email" type="name" component={TextField} label="Email" />
+      </Grid>
+      <Grid item xs={12} className="login-form__field">
+        <Field
+          name="password"
+          type="password"
+          component={TextField}
+          label="Password"
+        />
+      </Grid>
+      <Grid item xs={12} className="login-form__field">
+        <Button
+          type="submit"
+          disabled={submitting}
+          variant="contained"
+          color="primary"
+        >
+          Login
+        </Button>
+        <Button
+          type="button"
+          disabled={pristine || submitting}
+          variant="contained"
+          color="secondary"
+          onClick={reset}
+        >
+          Clear Values
+        </Button>
+      </Grid>
+    </form>
+  </Grid>
+);
 
 const CustomLoginForm = reduxForm({
   form: "loginForm",

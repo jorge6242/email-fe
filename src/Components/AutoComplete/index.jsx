@@ -180,6 +180,7 @@ ValueContainer.propTypes = {
 function MultiValue(props) {
   return (
     <Chip
+      color="primary"
       tabIndex={-1}
       label={props.children}
       className={clsx(props.selectProps.classes.chip, {
@@ -226,6 +227,17 @@ const components = {
   ValueContainer,
   DropdownIndicator: () => null
 };
+
+/**
+ * Generic Autocomplete to search data
+ *
+ * @param {object} suggestions data
+ * @param {function} handleChange Handle to get data
+ * @param {function} onInputChange Handle to modify the search data
+ * @param {object} values Current data
+ *
+ *
+ */
 
 export default function AutoComplete(props) {
   const { suggestions, handleChange, values, onInputChange } = props;
