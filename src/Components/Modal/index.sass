@@ -1,3 +1,5 @@
+@import "../../Theme/Colors.sass"
+
 .modal-main
   background-color: rgba(0, 0, 0, 0.6)
   width: 100vw
@@ -20,7 +22,7 @@
     height: auto
     margin: 48px
   .modal-main__content
-    background-color: #fff
+    background-color: $white
     max-width: 660px
     border-radius: 4px
     z-index: 999
@@ -54,9 +56,19 @@
     .modal-main_header
       margin-top: 10px
       padding: 10px 20px
-      .modal-main_title
+      .modal-main_title-container
         text-align: left
         line-height: 1.6
+        .modal-main_title
+          width: 23%
+          background-color: $bg-message
+          text-align: center
+          color: $white
+          font-weight: bold
+          border-radius: 11px
+          padding: 1px
+        .modal-main_title--draft
+          background-color: $title-draft
       .modal-main_close
         cursor: pointer
         text-align: right
